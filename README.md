@@ -54,7 +54,7 @@ pnpm install --frozen-lockfile
 
 # Add completeDiscordQuest plugin
 cd src\userplugins
-git clone https://github.com/winters27/completeDiscordQuest.git completeDiscordQuest
+git clone https://github.com/h1z1z1h16584/completeDiscordQuest.git completeDiscordQuest
 
 # Build and inject
 cd ..\..
@@ -125,3 +125,4 @@ pnpm inject
 ```
 
 Restart Discord after uninstalling.
+
