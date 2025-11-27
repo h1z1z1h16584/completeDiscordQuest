@@ -22,7 +22,7 @@ param(
 
 $ErrorActionPreference = "Stop"
 $PluginName = "completeDiscordQuest"
-$GitRepoUrl = "https://github.com/nicola02nb/completeDiscordQuest.git"
+$GitRepoUrl = "https://github.com/h1z1z1h16584/completeDiscordQuest.git"
 
 #region Helper Functions
 function Write-SectionHeader {
@@ -131,7 +131,7 @@ try {
 
     Write-Host ""
     Write-Host "================================================" -ForegroundColor Cyan
-    Write-Host "   completeDiscordQuest Plugin Installer/Updater" -ForegroundColor Cyan
+    Write-Host "  completeDiscordQuest Plugin Installer/Updater" -ForegroundColor Cyan
     Write-Host "================================================" -ForegroundColor Cyan
     Write-Host ""
     Write-Host "  NOTE: Requires Vencord built from source" -ForegroundColor Yellow
