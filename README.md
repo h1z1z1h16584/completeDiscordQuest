@@ -10,4 +10,6 @@ This is a porting for BetterDiscord of a [snippet](https://gist.github.com/aamia
 
 ## Features:
 
-- Set inteval time to check for new quests
+- Auto enroll quests
+- Set which type of quest can be farmed
+- Set which type of reward can be farmed
