@@ -33,16 +33,16 @@ export default definePlugin({
     settings,
     patches: [
         {
-            find: ".winButtonsWithDivider]",
+            find: ".PlatformTypes.WEB",
             replacement: {
                 match: /(\((\i)\){)(let{leading)/,
                 replace: "$1$2?.trailing?.props?.children?.unshift($self.renderQuestButtonTopBar());$3"
             }
         },
         {
-            find: "#{intl::ACCOUNT_SPEAKING_WHILE_MUTED}",
+            find: "accountContainerRef:",
             replacement: {
-                match: /className:\i\.buttons,.+?children:\[/,
+                match: /className:\i\.Uo,style:\i,children:\[/,
                 replace: "$&$self.renderQuestButtonSettingsBar(),"
             }
         },
@@ -51,13 +51,6 @@ export default definePlugin({
             replacement: {
                 match: /(\i).createElement\("a",(\i)\)/,
                 replace: "$1.createElement(\"a\",$self.renderQuestButtonBadges($2))"
-            }
-        },
-        {
-            find: "location:\"GlobalDiscoverySidebar\"",
-            replacement: {
-                match: /(\(\i\){let{tab:(\i)}=.+?children:\i}\))(]}\))/,
-                replace: "$1,$self.renderQuestButtonBadges($2)$3"
             }
         },
         {
@@ -134,12 +127,35 @@ export default definePlugin({
     }
 });
 
+function isQuestEligibleForFarming(quest: QuestValue): boolean {
+    const questConfig = quest.config.taskConfig || quest.config.taskConfigV2;
+    if (!Object.keys(questConfig.tasks).some(taskName => {
+        return (taskName === "WATCH_VIDEO" && settings.store.farmVideos
+            || taskName === "WATCH_VIDEO_ON_MOBILE" && settings.store.farmVideos
+            || taskName === "PLAY_ON_DESKTOP" && settings.store.farmPlayOnDesktop
+            || taskName === "STREAM_ON_DESKTOP" && settings.store.farmStreamOnDesktop
+            || taskName === "PLAY_ACTIVITY" && settings.store.farmPlayActivity);
+    })) return false;
+
+    const rewards = quest.config?.rewardsConfig?.rewards || [];
+    if (!Array.isArray(rewards) || rewards.length === 0) return false;
+    return rewards.some(reward => {
+        return (reward.type === 1 && settings.store.farmRewardCodes
+            || reward.type === 2 && settings.store.farmInGame
+            || reward.type === 3 && settings.store.farmCollectibles
+            || reward.type === 4 && settings.store.farmVirtualCurrency
+            || reward.type === 5 && settings.store.farmFractionalPremium);
+    });
+}
+
 function updateQuests() {
     availableQuests = [...QuestsStore.quests.values()];
     acceptableQuests = availableQuests.filter(x => x.userStatus?.enrolledAt == null && new Date(x.config.expiresAt).getTime() > Date.now()) || [];
     completableQuests = availableQuests.filter(x => x.userStatus?.enrolledAt && !x.userStatus?.completedAt && new Date(x.config.expiresAt).getTime() > Date.now()) || [];
     for (const quest of acceptableQuests) {
-        acceptQuest(quest);
+        if (isQuestEligibleForFarming(quest)) {
+            acceptQuest(quest);
+        }
     }
     for (const quest of completableQuests) {
         if (completingQuest.has(quest.id)) {
@@ -178,7 +194,7 @@ function stopCompletingAll() {
     console.log("Stopped completing all quests.");
 }
 
-function completeQuest(quest) {
+function completeQuest(quest: QuestValue) {
     const isApp = typeof DiscordNative !== "undefined";
     if (!quest) {
         console.log("You don't have any uncompleted quests!");
@@ -198,7 +214,7 @@ function completeQuest(quest) {
         let secondsDone = quest.userStatus?.progress?.[taskName]?.value ?? 0;
 
         if (!isApp && taskName !== "WATCH_VIDEO" && taskName !== "WATCH_VIDEO_ON_MOBILE") {
-            console.log("This no longer works in browser for non-video quests. Use the discord desktop app to complete the", questName, "quest!");
+            console.log("This no longer works in browser for non-video quests (" + taskName + "). Use the discord desktop app to complete the", questName, "quest!");
             return;
         }
 
@@ -248,7 +264,7 @@ function completeQuest(quest) {
             case "PLAY_ON_DESKTOP":
                 RestAPI.get({ url: `/applications/public?application_ids=${applicationId}` }).then(res => {
                     const appData = res.body[0];
-                    const exeName = appData.executables.find(x => x.os === "win32").name.replace(">", "");
+                    const exeName = appData.executables?.find(x => x.os === "win32")?.name?.replace(">","") ?? appData.name.replace(/[\/\\:*?"<>|]/g, "");
 
                     const fakeGame = {
                         cmdLine: `C:\\Program Files\\${appData.name}\\${exeName}`,

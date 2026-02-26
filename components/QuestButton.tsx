@@ -6,23 +6,22 @@
 
 import "./QuestButton.css";
 
+import { Flex } from "@components/Flex";
 import { findByCodeLazy, findByPropsLazy, findComponentByCodeLazy } from "@webpack";
 import { Tooltip, useEffect, useState } from "@webpack/common";
 
 import { QuestsStore } from "../stores";
-import { Flex } from "@components/Flex";
 
 const QuestIcon = findByCodeLazy("\"M7.5 21.7a8.95");
 const { navigateToQuestHome } = findByPropsLazy("navigateToQuestHome");
-const TopBarButton = findComponentByCodeLazy("badgePosition");
-const SettingsBarButton = findComponentByCodeLazy("iconForeground:");
-const CountBadge = findComponentByCodeLazy("\"renderBadgeCount\"");
+const TopBarButton = findComponentByCodeLazy("badgePosition", "icon");
+const SettingsBarButton = findComponentByCodeLazy("keyboardShortcut", "positionKey");
+const CountBadge = findComponentByCodeLazy("renderBadgeCount", "disableColor");
 
 function questsStatus() {
     const availableQuests = [...QuestsStore.quests.values()];
     return availableQuests.reduce((acc, x) => {
-        if (x.id === "1248385850622869556") return acc;
-        else if (new Date(x.config.expiresAt).getTime() < Date.now()) {
+        if (new Date(x.config.expiresAt).getTime() < Date.now()) {
             acc.expired++;
         } else if (x.userStatus?.claimedAt) {
             acc.claimed++;
@@ -52,7 +51,7 @@ export function QuestsCount() {
     }, []);
 
     return (
-        <Flex flexDirection={"row"} justifyContent={"flex-end"} className={"quest-button-badges"}>
+        <Flex flexDirection={"row"} justifyContent={"flex-end"} className={"quest-button-badges"} gap={"5px"}>
             {status.enrollable > 0 && (
                 <Tooltip text={"Enrollable"}>
                     {({ onMouseEnter, onMouseLeave }) => (
@@ -85,6 +84,18 @@ export function QuestsCount() {
                             onMouseLeave={onMouseLeave}
                             count={status.claimable}
                             color={"var(--status-positive)"}
+                        />
+                    )}
+                </Tooltip>
+            )}
+            {status.claimed > 0 && (
+                <Tooltip text={"Claimed"}>
+                    {({ onMouseEnter, onMouseLeave }) => (
+                        <CountBadge
+                            onMouseEnter={onMouseEnter}
+                            onMouseLeave={onMouseLeave}
+                            count={status.claimed}
+                            color={"var(--blurple-50)"}
                         />
                     )}
                 </Tooltip>
@@ -145,8 +156,6 @@ export function QuestButton({ type }: { type: "top-bar" | "settings-bar"; }) {
                     iconSize={20}
                     onClick={navigateToQuestHome}
                     onContextMenu={undefined}
-                    tooltip={tooltip}
-                    tooltipPosition={"bottom"}
                     hideOnClick={false}
                 /></SettingsBarButton>
         );
