@@ -18,7 +18,7 @@ You need these installed first:
 
 **Option A: Automated Install (Recommended)**
 
-1. **Clone Vencord** (if you haven't already):
+1. **Clone Vencord** (just paste this in powershell):
    ```powershell
    cd $HOME\Documents
    git clone https://github.com/Vendicated/Vencord.git
@@ -125,4 +125,5 @@ pnpm inject
 ```
 
 Restart Discord after uninstalling.
+
 
