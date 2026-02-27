@@ -32,14 +32,14 @@ You need these installed first:
 
 3. **Run the Installer**:
    - Double-click **`Run Update.bat`**
-   - The script will:
+   - The script will automatically:
      - Find your Vencord installation
      - Copy the plugin to `src/userplugins/completeDiscordQuest/`
      - Build Vencord with the plugin
      - Inject into Discord
+     - Restart Discord
 
 4. **Enable the Plugin**:
-   - Restart Discord completely (close from system tray)
    - Go to **Settings → Vencord → Plugins**
    - Search for **completeDiscordQuest** and enable it
 
@@ -80,8 +80,6 @@ pnpm build
 pnpm inject
 ```
 
-Restart Discord after updating.
-
 ---
 
 ## Troubleshooting
@@ -111,6 +109,7 @@ pnpm inject
 ```
 
 Restart Discord after uninstalling.
+
 
 
 
