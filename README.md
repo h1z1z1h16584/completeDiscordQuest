@@ -84,25 +84,11 @@ Restart Discord after updating.
 
 ---
 
-## Supported Quest Types
-
-| Quest Type | Browser | Desktop |
-|------------|---------|---------|
-| Video Quests | ✅ | ✅ |
-| Desktop Gameplay | ❌ | ✅ |
-| Stream Quests | ❌ | ✅* |
-| Activity Quests | ✅ | ✅ |
-
-*Stream quests require at least one other person in a voice channel.
-
----
-
 ## Troubleshooting
 
 **Plugin doesn't appear?**
 - Make sure you built from source: `pnpm build`
 - Restart Discord completely (close from system tray too)
-- The official Vencord installer doesn't support userplugins
 
 **Build errors?**
 - Ensure Node.js v18+ is installed: `node --version`
@@ -125,5 +111,6 @@ pnpm inject
 ```
 
 Restart Discord after uninstalling.
+
 
 
