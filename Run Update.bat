@@ -32,11 +32,30 @@ if %errorlevel% equ 0 (
     powershell -NoProfile -ExecutionPolicy Bypass -File "%SCRIPT_DIR%_update-script.ps1"
 )
 
-:: Always pause so user can see output
-echo.
-if %errorlevel% neq 0 (
+:: Check if script was successful
+if %errorlevel% equ 0 (
+    echo.
+    echo [SUCCESS] Plugin updated successfully!
+    echo.
+    echo Starting Discord...
+    
+    :: Try to find and launch Discord
+    if exist "%LOCALAPPDATA%\Discord\Update.exe" (
+        start "" "%LOCALAPPDATA%\Discord\Update.exe" --processStart Discord.exe
+    ) else if exist "%APPDATA%\Discord\Update.exe" (
+        start "" "%APPDATA%\Discord\Update.exe" --processStart Discord.exe
+    ) else if exist "%PROGRAMFILES%\Discord\Discord.exe" (
+        start "" "%PROGRAMFILES%\Discord\Discord.exe"
+    ) else (
+        echo [WARNING] Could not find Discord installation.
+        echo Please start Discord manually.
+    )
+    
+    timeout /t 3 >nul
+) else (
     echo.
     echo [ERROR] Script exited with error code: %errorlevel%
+    echo Discord will not be started.
+    echo.
+    pause
 )
-echo.
-pause
