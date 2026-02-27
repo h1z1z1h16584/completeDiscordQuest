@@ -130,9 +130,9 @@ try {
     if ([string]::IsNullOrEmpty($ScriptDir)) { $ScriptDir = $PWD.Path }
 
     Write-Host ""
-    Write-Host "================================================" -ForegroundColor Cyan
-    Write-Host "  completeDiscordQuest Plugin Installer/Updater" -ForegroundColor Cyan
-    Write-Host "================================================" -ForegroundColor Cyan
+    Write-Host "===============================================" -ForegroundColor Cyan
+    Write-Host " CompleteDiscordQuest Plugin Installer/Updater" -ForegroundColor Cyan
+    Write-Host "===============================================" -ForegroundColor Cyan
     Write-Host ""
     Write-Host "  NOTE: Requires Vencord built from source" -ForegroundColor Yellow
     Write-Host "  (Official installer doesn't support userplugins)" -ForegroundColor Gray
