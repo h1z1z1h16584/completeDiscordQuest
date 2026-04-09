@@ -60,6 +60,7 @@ export function QuestsCount() {
                             onMouseLeave={onMouseLeave}
                             count={status.enrollable}
                             color={"var(--status-danger)"}
+                            style={{ color: "var(--background-base-lowest)" }}
                         />
                     )}
                 </Tooltip>
@@ -72,6 +73,7 @@ export function QuestsCount() {
                             onMouseLeave={onMouseLeave}
                             count={status.enrolled}
                             color={"var(--status-warning)"}
+                            style={{ color: "var(--background-base-lowest)" }}
                         />
                     )}
                 </Tooltip>
@@ -84,6 +86,7 @@ export function QuestsCount() {
                             onMouseLeave={onMouseLeave}
                             count={status.claimable}
                             color={"var(--status-positive)"}
+                            style={{ color: "var(--background-base-lowest)" }}
                         />
                     )}
                 </Tooltip>
@@ -96,6 +99,7 @@ export function QuestsCount() {
                             onMouseLeave={onMouseLeave}
                             count={status.claimed}
                             color={"var(--blurple-50)"}
+                            style={{ color: "var(--background-base-lowest)" }}
                         />
                     )}
                 </Tooltip>

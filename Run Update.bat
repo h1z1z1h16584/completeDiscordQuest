@@ -6,9 +6,9 @@
 
 title completeDiscordQuest Plugin Updater
 
-echo ============================================
-echo    completeDiscordQuest Vencord Plugin Updater
-echo ============================================
+echo =============================================
+echo  completeDiscordQuest Vencord Plugin Updater
+echo =============================================
 echo.
 
 :: Get the directory where this batch file is located

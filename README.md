@@ -18,7 +18,7 @@ You need these installed first:
 
 **Option A: Automated Install (Recommended)**
 
-1. **Clone Vencord** (just paste this in powershell):
+1. **Clone Vencord** (if you haven't already):
    ```powershell
    cd $HOME\Documents
    git clone https://github.com/Vendicated/Vencord.git
@@ -32,14 +32,14 @@ You need these installed first:
 
 3. **Run the Installer**:
    - Double-click **`Run Update.bat`**
-   - The script will automatically:
+   - The script will:
      - Find your Vencord installation
      - Copy the plugin to `src/userplugins/completeDiscordQuest/`
      - Build Vencord with the plugin
      - Inject into Discord
-     - Restart Discord
 
 4. **Enable the Plugin**:
+   - Restart Discord completely (close from system tray)
    - Go to **Settings → Vencord → Plugins**
    - Search for **completeDiscordQuest** and enable it
 
@@ -80,6 +80,21 @@ pnpm build
 pnpm inject
 ```
 
+Restart Discord after updating.
+
+---
+
+## Supported Quest Types
+
+| Quest Type | Browser | Desktop |
+|------------|---------|---------|
+| Video Quests | ✅ | ✅ |
+| Desktop Gameplay | ❌ | ✅ |
+| Stream Quests | ❌ | ✅* |
+| Activity Quests | ✅ | ✅ |
+
+*Stream quests require at least one other person in a voice channel.
+
 ---
 
 ## Troubleshooting
@@ -87,6 +102,7 @@ pnpm inject
 **Plugin doesn't appear?**
 - Make sure you built from source: `pnpm build`
 - Restart Discord completely (close from system tray too)
+- The official Vencord installer doesn't support userplugins
 
 **Build errors?**
 - Ensure Node.js v18+ is installed: `node --version`
@@ -109,7 +125,4 @@ pnpm inject
 ```
 
 Restart Discord after uninstalling.
-
-
-
 
