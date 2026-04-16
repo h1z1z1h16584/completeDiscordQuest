@@ -1,45 +1,49 @@
 @echo off
+setlocal enabledelayedexpansion
+
 :: ============================================================================
-:: completeDiscordQuest Vencord Plugin Updater
-:: Double-click this file to update the plugin
+:: completeDiscordQuest Vencord Plugin Updater (Auto-Restart)
 :: ============================================================================
 
 title completeDiscordQuest Plugin Updater
-
-echo =============================================
-echo  completeDiscordQuest Vencord Plugin Updater
-echo =============================================
-echo.
-
-:: Get the directory where this batch file is located
 set "SCRIPT_DIR=%~dp0"
 
-:: Check if the PowerShell script exists
-if not exist "%SCRIPT_DIR%_update-script.ps1" (
-    echo [ERROR] _update-script.ps1 not found in %SCRIPT_DIR%
-    echo Please ensure _update-script.ps1 is in the same folder as this batch file.
+:MENU
+cls
+echo =================================================
+echo   completeDiscordQuest Vencord Plugin Updater
+echo =================================================
+echo.
+echo  [1] Local Update  (Sync files from this folder)
+echo  [2] Online Update (Pull latest from GitHub)
+echo  [3] Exit
+echo.
+set /p choice="Select an option (1-3): "
+
+if "%choice%"=="1" set "PS_FILE=update-local.ps1"
+if "%choice%"=="2" set "PS_FILE=update-online.ps1"
+if "%choice%"=="3" exit /b 0
+
+if not exist "%SCRIPT_DIR%%PS_FILE%" (
+    echo [ERROR] %PS_FILE% not found.
     pause
-    exit /b 1
+    goto MENU
 )
 
-:: Check if PowerShell Core (pwsh) is available, otherwise use Windows PowerShell
+:: Run the selected PowerShell script
 where pwsh >nul 2>&1
 if %errorlevel% equ 0 (
-    echo Using PowerShell Core...
-    pwsh -NoProfile -ExecutionPolicy Bypass -File "%SCRIPT_DIR%_update-script.ps1"
+    pwsh -NoProfile -ExecutionPolicy Bypass -File "%SCRIPT_DIR%%PS_FILE%"
 ) else (
-    echo Using Windows PowerShell...
-    powershell -NoProfile -ExecutionPolicy Bypass -File "%SCRIPT_DIR%_update-script.ps1"
+    powershell -NoProfile -ExecutionPolicy Bypass -File "%SCRIPT_DIR%%PS_FILE%"
 )
 
-:: Check if script was successful
+:: If successful, restart Discord automatically
 if %errorlevel% equ 0 (
     echo.
-    echo [SUCCESS] Plugin updated successfully!
-    echo.
-    echo Starting Discord...
+    echo [SUCCESS] Update complete! Restarting Discord...
     
-    :: Try to find and launch Discord
+    :: Logic to find and start Discord
     if exist "%LOCALAPPDATA%\Discord\Update.exe" (
         start "" "%LOCALAPPDATA%\Discord\Update.exe" --processStart Discord.exe
     ) else if exist "%APPDATA%\Discord\Update.exe" (
@@ -47,15 +51,14 @@ if %errorlevel% equ 0 (
     ) else if exist "%PROGRAMFILES%\Discord\Discord.exe" (
         start "" "%PROGRAMFILES%\Discord\Discord.exe"
     ) else (
-        echo [WARNING] Could not find Discord installation.
-        echo Please start Discord manually.
+        echo [WARNING] Could not find Discord installation to restart.
     )
     
     timeout /t 3 >nul
+    exit
 ) else (
     echo.
-    echo [ERROR] Script exited with error code: %errorlevel%
-    echo Discord will not be started.
-    echo.
+    echo [ERROR] Script failed. Discord will not be restarted.
     pause
+    goto MENU
 )
