@@ -19,7 +19,7 @@ You need these installed first:
 1. **Clone Vencord** (if you haven't already):
    ```powershell
    cd $HOME\Documents
-   git clone [https://github.com/Vendicated/Vencord.git](https://github.com/Vendicated/Vencord.git)
+   git clone https://github.com/Vendicated/Vencord.git
    cd Vencord
    pnpm install --frozen-lockfile
    ```
