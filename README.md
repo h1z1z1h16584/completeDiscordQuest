@@ -58,7 +58,7 @@ Use this to automatically fetch the latest official bug fixes and features direc
 ## Supported Quest Types
 
 | Quest Type | Desktop |
-| :--- | :---: | :---: |
+| :--- | :---: |
 | Video Quests | ✅ |
 | Desktop Gameplay | ✅ |
 | Stream Quests | ✅ |
