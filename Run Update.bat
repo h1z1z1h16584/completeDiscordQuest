@@ -18,7 +18,8 @@ echo  [1] Local Update  (Sync files from this folder)
 echo  [2] Online Update (Pull latest from GitHub)
 echo  [3] Exit
 echo.
-set /p choice="Select an option (1-3): "
+choice /c 123 /n /m "Select an option (1-3): "
+set "choice=%errorlevel%"
 
 if "%choice%"=="1" set "PS_FILE=update-local.ps1"
 if "%choice%"=="2" set "PS_FILE=update-online.ps1"
